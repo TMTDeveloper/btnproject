@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "MST_CUSTOMER": {
+    "host": "localhost",
+    "port": 1433,
+    "url": "",
+    "database": "BTN_PK",
+    "password": "zenhuw",
+    "name": "MST_CUSTOMER",
+    "user": "zenhuw",
+    "connector": "mssql"
+  }
+}
