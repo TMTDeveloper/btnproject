@@ -7,10 +7,24 @@
     "host": "localhost",
     "port": 1433,
     "url": "",
-    "database": "BTN_PK",
-    "password": "zenhuw",
+    "database": "BTN_SOAP",
+    "password": "faiz987654321",
     "name": "MST_CUSTOMER",
     "user": "zenhuw",
     "connector": "mssql"
+  },
+  "SOAP_BTN": {
+    "url": "http://10.255.0.17/ws_BTN/Service.asmx",
+    "name": "SOAP_BTN",
+    "wsdl": "http://10.255.0.17/ws_BTN/Service.asmx?WSDL",
+    "remotingEnabled": true,
+    "operation":{
+      "getListBTNConsumer": {
+        "service": "Service",
+        "port": "ServiceSoap",
+        "operation": "GetListBTNConsumer"
+      }
+    },
+    "connector": "soap"
   }
 }
