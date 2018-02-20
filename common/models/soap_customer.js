@@ -6,7 +6,7 @@ module.exports = function (Soapcustomer) {
     var date = datetoday //tanggal yyyymmdd
     Soapcustomer.GetListBTNConsumer({
       Data: 'SP3K',
-      Tanggal: date, //"20160107",
+      Tanggal:"20160107",
       uid: "$up3rPAN"
     }, function (err, response) {
       var result = JSON.parse(response.GetListBTNConsumerResult);
