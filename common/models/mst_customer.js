@@ -37,8 +37,7 @@ module.exports = function(Mstcustomer) {
             arg: 'data',
             type: 'string'
           }
-        }
-      )
+        })
     
     
       Mstcustomer.gettoday = function (datetoday, cb) {
