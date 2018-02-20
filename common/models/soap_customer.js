@@ -63,8 +63,11 @@ module.exports = function (Soapcustomer) {
       //          double asuransiJiwa = consumer.getDouble("ASURANSI_JIWA");
       //          double asuransiFire = consumer.getDouble("ASURANSI_FIRE");
       //          double asuransiKredit = consumer.getDouble("ASURANSI_KREDIT");
-
-      cb(err, result.message);
+     var data={
+       message: result.message,
+       error:err||null
+     }
+      cb(err, data);
     });
   };
 
@@ -75,8 +78,8 @@ module.exports = function (Soapcustomer) {
         type: 'string'
       },
       returns: {
-        arg: 'status',
-        type: 'string',
+        arg: 'data',
+        type: 'object',
         root: true
       },
       http: {
@@ -99,6 +102,13 @@ module.exports = function (Soapcustomer) {
         uid: "$up3rPAN"
       }, async function (err, response) {
         console.log(err);
+        if (err !== null){
+          var data={
+            message:"success",
+            error:err
+          }
+          cb(null,data)
+        }
 
         let result = JSON.parse(response.GetListBTNConsumerResult);
         if (result.data.length > 0) {
@@ -153,7 +163,11 @@ module.exports = function (Soapcustomer) {
           loopdata(x);
         } else if (x.diff(b, 'days') > 0) {
           console.log('sfinished')
-          cb(error, "done");
+          var data={
+            message:"success",
+            error:error
+          }
+          cb(error,data );
         }
 
 
@@ -183,8 +197,8 @@ module.exports = function (Soapcustomer) {
         }
       ],
       returns: {
-        arg: 'status',
-        type: 'string',
+        arg: 'data',
+        type: 'object',
         root: true
       },
       http: {

@@ -30,11 +30,11 @@ boot(app, __dirname, function(err) {
 
 var moment = require('moment');
 var CronJob = require('cron').CronJob;
-new CronJob('1 */10 * * * *', function () {
+new CronJob('1 */1 * * * *', function () {
 
-  app.models.SOAP_CUSTOMER.getListBTNConsumerToday(moment().format('YYYYMMDD'),function(err,succ){
-    console.log('cronjob every 10 minutes run');
-  })
+  // app.models.SOAP_CUSTOMER.getListBTNConsumerToday(moment().format('YYYYMMDD'),function(err,succ){
+  //   console.log('cronjob every 10 minutes run');
+  // })
 
 
 }, null, true);
