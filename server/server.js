@@ -27,3 +27,11 @@ boot(app, __dirname, function(err) {
   if (require.main === module)
     app.start();
 });
+
+
+var CronJob = require('cron').CronJob;
+new CronJob('1 */10 * * * *', function () {
+  console.log("cron job for once every 10 minutes ");
+
+}, null, true, 'America/Los_Angeles');
+
