@@ -10,7 +10,7 @@ module.exports = function (Soapcustomer) {
       uid: "$up3rPAN"
     }, function (err, response) {
       var result = JSON.parse(response.GetListBTNConsumerResult);
-
+console.log(JSON.stringify(result));
       var Mstcustomer = app.models.MST_CUSTOMER;
       for (var data in result.data) {
         Mstcustomer.create({
