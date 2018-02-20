@@ -28,10 +28,14 @@ boot(app, __dirname, function(err) {
     app.start();
 });
 
-
+var moment = require('moment');
 var CronJob = require('cron').CronJob;
 new CronJob('1 */10 * * * *', function () {
-  console.log("cron job for once every 10 minutes ");
 
-}, null, true, 'America/Los_Angeles');
+  app.models.SOAP_CUSTOMER.getListBTNConsumerToday(moment().format('YYYYMMDD'),function(err,succ){
+    console.log('cronjob every 10 minutes run');
+  })
+
+
+}, null, true);
 
