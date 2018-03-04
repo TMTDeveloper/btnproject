@@ -84,7 +84,7 @@ module.exports = function (Soapcustomer) {
       },
       http: {
         verb: 'post',
-        path: '/getlistconsumertoday'
+        path: '/getListBTNConsumerSP3KToday'
       }
     });
 
@@ -203,7 +203,7 @@ module.exports = function (Soapcustomer) {
       },
       http: {
         verb: 'post',
-        path: '/getlistconsumerfromto'
+        path: '/getListBTNConsumerSP3Kfromto'
       }
     });
 
