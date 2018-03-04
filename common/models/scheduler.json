@@ -1,0 +1,26 @@
+{
+  "name": "scheduler",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": false
+  },
+  "properties": {
+    "PROCESS_START": {
+      "type": "string",
+      "required": true
+    },
+    "PROCESS_END": {
+      "type": "string",
+      "required": true
+    },
+    "STATUS": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

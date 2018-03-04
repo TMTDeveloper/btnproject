@@ -1,0 +1,99 @@
+{
+  "name": "MST_CUSTOMER_PK",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": false
+  },
+  "properties": {
+    "CUSTOMER_ID": {
+      "type": "string",
+      "id": true,
+      "required": true
+    },
+    "KODE_CABANG": {
+      "type": "string",
+      "required": true
+    },
+    "CABANG": {
+      "type": "string",
+      "required": true
+    },
+    "KANWIL": {
+      "type": "string",
+      "required": true
+    },
+    "NO_APLIKASI": {
+      "type": "string",
+      "required": true
+    },
+    "NAMA_DEBITUR": {
+      "type": "string",
+      "required": true
+    },
+    "GENDER": {
+      "type": "string",
+      "required": true
+    },
+    "ALAMAT_DEBITUR": {
+      "type": "string",
+      "required": true
+    },
+    "ALAMAT_AGUNAN": {
+      "type": "string",
+      "required": true
+    },
+    "TANGGAL_LAHIR": {
+      "type": "date",
+      "required": true
+    },
+    "USIA": {
+      "type": "number",
+      "required": true
+    },
+    "PK_DATE": {
+      "type": "date",
+      "required": true
+    },
+    "JANGKA_WAKTU": {
+      "type": "string",
+      "required": true
+    },
+    "JENIS_KREDIT": {
+      "type": "string",
+      "required": true
+    },
+    "PLAFOND_KREDIT": {
+      "type": "number",
+      "required": true
+    },
+    "HARGA_BANGUNAN": {
+      "type": "number",
+      "required": true
+    },
+    "PEKERJAAN": {
+      "type": "string",
+      "required": true
+    },
+    "ASURANSI_JIWA": {
+      "type": "number",
+      "required": true
+    },
+    "ASURANSI_FIRE": {
+      "type": "number",
+      "required": true
+    },
+    "ASURANSI_KREDIT": {
+      "type": "number",
+      "required": true
+    },
+    "DATE_TIME_CREATE": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

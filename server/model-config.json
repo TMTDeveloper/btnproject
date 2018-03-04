@@ -38,11 +38,18 @@
   "MST_CUSTOMER": {
     "dataSource": "MST_CUSTOMER",
     "public": true,
-    "options": {
-    }
+    "options": {}
   },
   "SOAP_CUSTOMER": {
     "dataSource": "SOAP_BTN",
+    "public": true
+  },
+  "scheduler": {
+    "dataSource": "scheduler",
+    "public": true
+  },
+  "MST_CUSTOMER_PK": {
+    "dataSource": "MST_CUSTOMER_PK",
     "public": true
   }
 }
