@@ -1,13 +1,13 @@
 'use strict';
 
-module.exports = function(Mstcustomer) {
+module.exports = function(Mstcustomersp3k) {
 
-    Mstcustomer.getfromto = function (datetoday, dateto, cb) {
+    Mstcustomersp3k.getfromto = function (datetoday, dateto, cb) {
 
         var datefrom = datetoday + " 00:00:00.00";
         var dateto = dateto + " 24:00:00.00";
     
-        Mstcustomer.find({
+        Mstcustomersp3k.find({
           where: {
             DATE_TIME_CREATE: {
               between: [datefrom, dateto]
@@ -19,7 +19,7 @@ module.exports = function(Mstcustomer) {
       };
     
     
-      Mstcustomer.remoteMethod(
+      Mstcustomersp3k.remoteMethod(
         'getfromto', {
           http: {
             path: '/fromto',
@@ -40,12 +40,12 @@ module.exports = function(Mstcustomer) {
         })
     
     
-      Mstcustomer.gettoday = function (datetoday, cb) {
+      Mstcustomersp3k.gettoday = function (datetoday, cb) {
     
         var datefrom = datetoday + " 00:00:00.00";
         var dateto = datetoday + " 24:00:00.00";
     
-        Mstcustomer.find({
+        Mstcustomersp3k.find({
           where: {
             DATE_TIME_CREATE: {
               between: [datefrom, dateto]
@@ -57,7 +57,7 @@ module.exports = function(Mstcustomer) {
       };
     
     
-      Mstcustomer.remoteMethod(
+      Mstcustomersp3k.remoteMethod(
         'gettoday', {
           http: {
             path: '/today',
@@ -73,17 +73,17 @@ module.exports = function(Mstcustomer) {
           }
         }
       )
-      Mstcustomer.getall = function (cb) {
+      Mstcustomersp3k.getall = function (cb) {
     
     
-        Mstcustomer.find({
+        Mstcustomersp3k.find({
         }, function (err, data) {
           cb(null, data)
         })
       };
     
     
-      Mstcustomer.remoteMethod(
+      Mstcustomersp3k.remoteMethod(
         'getall', {
           http: {
             path: '/all',

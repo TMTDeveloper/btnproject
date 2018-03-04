@@ -11,9 +11,9 @@ module.exports = function (Soapcustomer) {
       uid: "$up3rPAN"
     }, function (err, response) {
       var result = JSON.parse(response.GetListBTNConsumerResult);
-      var Mstcustomer = app.models.MST_CUSTOMER;
+      var Mstcustomersp3k = app.models.MST_CUSTOMER_SP3K;
       for (var data in result.data) {
-        Mstcustomer.create({
+        Mstcustomersp3k.create({
           "CUSTOMER_ID": result.data[data].NO_APLIKASI,
           "KODE_CABANG": result.data[data].KODE_CABANG,
           "CABANG": result.data[data].CABANG,
@@ -25,7 +25,7 @@ module.exports = function (Soapcustomer) {
           "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
           "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
           "USIA": parseInt(result.data[data].USIA),
-          "PK_DATE": result.data[data].SP3K_DATE,
+          "SP3K_DATE": result.data[data].SP3K_DATE,
           "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
           "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
           "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),
@@ -114,8 +114,8 @@ module.exports = function (Soapcustomer) {
         if (result.data.length > 0) {
           for (let data in result.data) {
             try {
-              await app.dataSources.MST_CUSTOMER.transaction(async models => {
-                await models.MST_CUSTOMER.create({
+              await app.dataSources.MST_CUSTOMER_SP3K.transaction(async models => {
+                await models.MST_CUSTOMER_SP3K.create({
                   "CUSTOMER_ID": result.data[data].NO_APLIKASI,
                   "KODE_CABANG": result.data[data].KODE_CABANG,
                   "CABANG": result.data[data].CABANG,
@@ -127,7 +127,7 @@ module.exports = function (Soapcustomer) {
                   "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
                   "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
                   "USIA": parseInt(result.data[data].USIA),
-                  "PK_DATE": result.data[data].SP3K_DATE,
+                  "SP3K_DATE": result.data[data].SP3K_DATE,
                   "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
                   "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
                   "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),

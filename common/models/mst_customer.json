@@ -1,5 +1,5 @@
 {
-  "name": "MST_CUSTOMER",
+  "name": "MST_CUSTOMER_SP3K",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
@@ -51,7 +51,7 @@
       "type": "number",
       "required": true
     },
-    "PK_DATE": {
+    "SP3PK_DATE": {
       "type": "date",
       "required": true
     },

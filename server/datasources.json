@@ -3,13 +3,13 @@
     "name": "db",
     "connector": "memory"
   },
-  "MST_CUSTOMER": {
+  "MST_CUSTOMER_SP3K": {
     "host": "localhost",
     "port": 1433,
     "url": "",
     "database": "BTN_SOAP",
     "password": "faiz987654321",
-    "name": "MST_CUSTOMER",
+    "name": "MST_CUSTOMER_SP3K",
     "user": "zenhuw",
     "connector": "mssql"
   },

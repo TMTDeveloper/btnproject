@@ -35,10 +35,17 @@
     "dataSource": "db",
     "public": false
   },
-  "MST_CUSTOMER": {
-    "dataSource": "MST_CUSTOMER",
+  "MST_CUSTOMER_SP3K": {
+    "dataSource": "MST_CUSTOMER_SP3K",
     "public": true,
-    "options": {}
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "getall": true
+        }
+      }
+    }
   },
   "SOAP_CUSTOMER": {
     "dataSource": "SOAP_BTN",
@@ -61,6 +68,14 @@
   },
   "MST_CUSTOMER_PK": {
     "dataSource": "MST_CUSTOMER_PK",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "getall": true
+        }
+      }
+    }
   }
 }
