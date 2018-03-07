@@ -1,6 +1,6 @@
 {
   "name": "SOAP_CUSTOMER",
-  "base": "PersistedModel",
+  "base": "Model",
   "idInjection": false,
   "options": {
     "validateUpsert": true

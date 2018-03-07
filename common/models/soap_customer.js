@@ -1,8 +1,9 @@
 'use strict';
 var moment = require('moment');
-
+var async = require('async');
 module.exports = function (Soapcustomer) {
   var app = require('../../server/server');
+
   Soapcustomer.getListBTNConsumerSP3KToday = function (datetoday, cb) {
     const a = moment(datetoday, 'YYYYMMDD');
     Soapcustomer.GetListBTNConsumer({
@@ -89,10 +90,11 @@ module.exports = function (Soapcustomer) {
     });
 
   Soapcustomer.getListBTNConsumerSP3Kfromto = function (httpReq, datefrom, dateto, cb) {
+
     httpReq.setTimeout(0);
-    const a = moment(datefrom, 'YYYYMMDD');
-    const b = moment(dateto, 'YYYYMMDD');
-    var m = moment(a);
+    const a = moment(datefrom);
+    const b = moment(dateto);
+    var m = moment(datefrom);
 
 
     async function getSoap(date, callback) {
@@ -101,53 +103,71 @@ module.exports = function (Soapcustomer) {
         Tanggal: date,
         uid: "$up3rPAN"
       }, async function (err, response) {
-        console.log(err);
+        console.log(date);
         if (err !== null) {
           var data = {
             message: "success",
-            error: err
+            error: err,
+            point: "btn connect"
           }
           cb(null, data)
         }
 
         let result = JSON.parse(response.GetListBTNConsumerResult);
         if (result.data.length > 0) {
-          for (let data in result.data) {
-            try {
-              await app.dataSources.MST_CUSTOMER_SP3K.transaction(async models => {
-                await models.MST_CUSTOMER_SP3K.create({
-                  "CUSTOMER_ID": result.data[data].NO_APLIKASI,
-                  "KODE_CABANG": result.data[data].KODE_CABANG,
-                  "CABANG": result.data[data].CABANG,
-                  "KANWIL": result.data[data].KANWIL,
-                  "NO_APLIKASI": result.data[data].NO_APLIKASI,
-                  "NAMA_DEBITUR": result.data[data].NAMA_DEBITUR,
-                  "GENDER": result.data[data].GENDER,
-                  "ALAMAT_DEBITUR": result.data[data].ALAMAT_DEBITUR,
-                  "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
-                  "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
-                  "USIA": parseInt(result.data[data].USIA),
-                  "SP3K_DATE": result.data[data].SP3K_DATE,
-                  "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
-                  "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
-                  "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),
-                  "HARGA_BANGUNAN": parseInt(result.data[data].HARGA_BANGUNAN),
-                  "PEKERJAAN": result.data[data].PEKERJAAN,
-                  "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
-                  "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
-                  "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-                  "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
-                });
+          async.eachOf(result.data, function (value, data, err) {
+            
+            var Mstcustomersp3k = app.models.MST_CUSTOMER_SP3K;
+            Mstcustomersp3k.upsert({
+              "CUSTOMER_ID": result.data[data].NO_APLIKASI,
+              "KODE_CABANG": result.data[data].KODE_CABANG,
+              "CABANG": result.data[data].CABANG,
+              "KANWIL": result.data[data].KANWIL,
+              "NO_APLIKASI": result.data[data].NO_APLIKASI,
+              "NAMA_DEBITUR": result.data[data].NAMA_DEBITUR,
+              "GENDER": result.data[data].GENDER,
+              "ALAMAT_DEBITUR": result.data[data].ALAMAT_DEBITUR,
+              "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
+              "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
+              "USIA": parseInt(result.data[data].USIA),
+              "SP3K_DATE": result.data[data].SP3K_DATE,
+              "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
+              "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
+              "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),
+              "HARGA_BANGUNAN": parseInt(result.data[data].HARGA_BANGUNAN),
+              "PEKERJAAN": result.data[data].PEKERJAAN,
+              "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
+              "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
+              "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
+              "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+            }, (err) => {
+              if (err) {
+                var data = {
+                  message: "Proses Gagal",
+                  error: err,
+                  point: "insert"
+                }
+                cb(null, data);
+              }
+              // configs is now a map of JSON data
 
-              }, {
-                timeout: 50
-              });
-            } catch (e) {
-              console.log(e); // Error: Transaction is rolled back due to timeout
-              console.log(e.code); // TRANSACTION_TIMEOUT
+            });
+
+
+
+          }, function (err) {
+            if (err) {
+              var data = {
+                message: "Proses Gagal",
+                error: err,
+                point: "looping"
+              }
+              cb(null, data);
             }
+          })
 
-          };
+
+
         };
         callback(err);
 
@@ -157,17 +177,20 @@ module.exports = function (Soapcustomer) {
     function loopdata(x) {
       getSoap(x.format('YYYYMMDD'), function (error) {
         x.add(1, 'days');
-        console.log(x.diff(b, 'days'))
+        var s=moment(datefrom).diff(moment(dateto),'days');
+        console.log(s);
+        console.log(x.diff(b, 'days'));
+        console.log(x.diff(b, 'days'));
         if (x.diff(b, 'days') <= 0) {
-          console.log("done");
+
           loopdata(x);
-        } else if (x.diff(b, 'days') > 0) {
-          console.log('sfinished')
+        } else if (x.diff(b, 'days') > 0 || isNaN(x.diff(b, 'days'))) {
+
           var data = {
             message: "success",
             error: error
           }
-          cb(error, data);
+          cb(null, data);
         }
 
 
@@ -208,6 +231,7 @@ module.exports = function (Soapcustomer) {
     });
 
   Soapcustomer.getListBTNConsumerPKToday = function (datetoday, cb) {
+
     const a = moment(datetoday, 'YYYYMMDD');
     Soapcustomer.GetListBTNConsumer({
       Data: 'PK',
@@ -270,10 +294,11 @@ module.exports = function (Soapcustomer) {
     });
 
   Soapcustomer.getListBTNConsumerPKfromto = function (httpReq, datefrom, dateto, cb) {
+
     httpReq.setTimeout(0);
-    const a = moment(datefrom, 'YYYYMMDD');
-    const b = moment(dateto, 'YYYYMMDD');
-    var m = moment(a);
+    const a = moment(datefrom);
+    const b = moment(dateto);
+    var m = moment(datefrom);
 
 
     async function getSoap(date, callback) {
@@ -282,7 +307,7 @@ module.exports = function (Soapcustomer) {
         Tanggal: date,
         uid: "$up3rPAN"
       }, async function (err, response) {
-        console.log(err);
+        console.log(date + response)
         if (err !== null) {
           var data = {
             message: "success",
@@ -293,42 +318,59 @@ module.exports = function (Soapcustomer) {
 
         let result = JSON.parse(response.GetListBTNConsumerResult);
         if (result.data.length > 0) {
-          for (let data in result.data) {
-            try {
-              await app.dataSources.MST_CUSTOMER_PK.transaction(async models => {
-                await models.MST_CUSTOMER_PK.create({
-                  "CUSTOMER_ID": result.data[data].NO_APLIKASI,
-                  "KODE_CABANG": result.data[data].KODE_CABANG,
-                  "CABANG": result.data[data].CABANG,
-                  "KANWIL": result.data[data].KANWIL,
-                  "NO_APLIKASI": result.data[data].NO_APLIKASI,
-                  "NAMA_DEBITUR": result.data[data].NAMA_DEBITUR,
-                  "GENDER": result.data[data].GENDER,
-                  "ALAMAT_DEBITUR": result.data[data].ALAMAT_DEBITUR,
-                  "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
-                  "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
-                  "USIA": parseInt(result.data[data].USIA),
-                  "PK_DATE": result.data[data].PK_DATE,
-                  "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
-                  "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
-                  "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),
-                  "HARGA_BANGUNAN": parseInt(result.data[data].HARGA_BANGUNAN),
-                  "PEKERJAAN": result.data[data].PEKERJAAN,
-                  "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
-                  "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
-                  "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-                  "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
-                });
+          async.eachOf(result.data, function (value, data, err) {
 
-              }, {
-                timeout: 50
-              });
-            } catch (e) {
-              console.log(e); // Error: Transaction is rolled back due to timeout
-              console.log(e.code); // TRANSACTION_TIMEOUT
+            var Mstcustomerpk = app.models.MST_CUSTOMER_PK;
+            Mstcustomerpk.upsert({
+              "CUSTOMER_ID": result.data[data].NO_APLIKASI,
+              "KODE_CABANG": result.data[data].KODE_CABANG,
+              "CABANG": result.data[data].CABANG,
+              "KANWIL": result.data[data].KANWIL,
+              "NO_APLIKASI": result.data[data].NO_APLIKASI,
+              "NAMA_DEBITUR": result.data[data].NAMA_DEBITUR,
+              "GENDER": result.data[data].GENDER,
+              "ALAMAT_DEBITUR": result.data[data].ALAMAT_DEBITUR,
+              "ALAMAT_AGUNAN": result.data[data].ALAMAT_AGUNAN,
+              "TANGGAL_LAHIR": result.data[data].TANGGAL_LAHIR,
+              "USIA": parseInt(result.data[data].USIA),
+              "PK_DATE": result.data[data].PK_DATE,
+              "JANGKA_WAKTU": result.data[data].JANGKA_WAKTU,
+              "JENIS_KREDIT": result.data[data].JENIS_KREDIT,
+              "PLAFOND_KREDIT": parseInt(result.data[data].PLAFOND_KREDIT),
+              "HARGA_BANGUNAN": parseInt(result.data[data].HARGA_BANGUNAN),
+              "PEKERJAAN": result.data[data].PEKERJAAN,
+              "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
+              "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
+              "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
+              "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+            }, (err) => {
+              console.log("upsert" + err)
+              if (err) {
+                var data = {
+                  message: "Proses Gagal",
+                  error: err
+                }
+                cb(null, data);
+              }
+              // configs is now a map of JSON data
+
+            });
+
+
+
+          }, function (err) {
+            console.log("looping" + err)
+            if (err) {
+              var data = {
+                message: "Proses Gagal",
+                error: err
+              }
+              cb(null, data);
             }
+          })
 
-          };
+
+
         };
         callback(err);
 
@@ -338,17 +380,20 @@ module.exports = function (Soapcustomer) {
     function loopdata(x) {
       getSoap(x.format('YYYYMMDD'), function (error) {
         x.add(1, 'days');
-        console.log(x.diff(b, 'days'))
+        var s=moment(datefrom).diff(moment(dateto),'days');
+        console.log(s);
+        console.log(x.diff(b, 'days'));
+        console.log(x.diff(b, 'days'));
         if (x.diff(b, 'days') <= 0) {
-          console.log("done");
+
           loopdata(x);
-        } else if (x.diff(b, 'days') > 0) {
-          console.log('sfinished')
+        } else if (x.diff(b, 'days') > 0 || isNaN(x.diff(b, 'days'))) {
+
           var data = {
             message: "success",
             error: error
           }
-          cb(error, data);
+          cb(null, data);
         }
 
 
@@ -384,7 +429,7 @@ module.exports = function (Soapcustomer) {
       },
       http: {
         verb: 'post',
-        path: '/getlistconsumerPKfromto'
+        path: '/getListBTNConsumerPKfromto'
       }
     });
 

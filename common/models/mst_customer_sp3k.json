@@ -1,9 +1,9 @@
 {
   "name": "MST_CUSTOMER_SP3K",
   "base": "PersistedModel",
-  "idInjection": false,
+  "idInjection": true,
   "options": {
-    "validateUpsert": false
+    "validateUpsert": true
   },
   "properties": {
     "CUSTOMER_ID": {
@@ -51,7 +51,7 @@
       "type": "number",
       "required": true
     },
-    "SP3PK_DATE": {
+    "SP3K_DATE": {
       "type": "date",
       "required": true
     },

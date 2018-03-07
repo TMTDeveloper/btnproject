@@ -18,6 +18,7 @@
     "name": "SOAP_BTN",
     "wsdl": "http://10.255.0.17/ws_BTN/Service.asmx?WSDL",
     "remotingEnabled": true,
+    "connectionTimeout": 0,
     "operation": {
       "getListBTNConsumer": {
         "service": "Service",
