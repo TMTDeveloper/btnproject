@@ -89,9 +89,8 @@ module.exports = function (Soapcustomer) {
       }
     });
 
-  Soapcustomer.getListBTNConsumerSP3Kfromto = function (httpReq, datefrom, dateto, cb) {
+  Soapcustomer.getListBTNConsumerSP3Kfromto = function (datefrom, dateto, cb) {
 
-    httpReq.setTimeout(0);
     const a = moment(datefrom);
     const b = moment(dateto);
     var m = moment(datefrom);
@@ -107,8 +106,8 @@ module.exports = function (Soapcustomer) {
         if (err !== null) {
           var data = {
             message: "success",
-            error: err,
-            point: "btn connect"
+            error: err
+            // point: "btn connect"
           }
           cb(null, data)
         }
@@ -141,11 +140,12 @@ module.exports = function (Soapcustomer) {
               "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
               "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
             }, (err) => {
+              console.log("upsert" + err)
               if (err) {
-                var data = {
+                var data = { 
                   message: "Proses Gagal",
-                  error: err,
-                  point: "insert"
+                  error: err
+                  // point: "insert"
                 }
                 cb(null, data);
               }
@@ -156,11 +156,12 @@ module.exports = function (Soapcustomer) {
 
 
           }, function (err) {
+            console.log("looping" + err)
             if (err) {
               var data = {
                 message: "Proses Gagal",
                 error: err,
-                point: "looping"
+                // point: "looping"
               }
               cb(null, data);
             }
@@ -204,13 +205,7 @@ module.exports = function (Soapcustomer) {
 
   Soapcustomer.remoteMethod(
     'getListBTNConsumerSP3Kfromto', {
-      accepts: [{
-          arg: "req",
-          type: "object",
-          http: {
-            source: "req"
-          }
-        },
+      accepts: [
         {
           arg: 'datefrom',
           type: 'string'
@@ -293,9 +288,8 @@ module.exports = function (Soapcustomer) {
       }
     });
 
-  Soapcustomer.getListBTNConsumerPKfromto = function (httpReq, datefrom, dateto, cb) {
+  Soapcustomer.getListBTNConsumerPKfromto = function ( datefrom, dateto, cb) {
 
-    httpReq.setTimeout(0);
     const a = moment(datefrom);
     const b = moment(dateto);
     var m = moment(datefrom);
@@ -407,13 +401,7 @@ module.exports = function (Soapcustomer) {
 
   Soapcustomer.remoteMethod(
     'getListBTNConsumerPKfromto', {
-      accepts: [{
-          arg: "req",
-          type: "object",
-          http: {
-            source: "req"
-          }
-        },
+      accepts: [
         {
           arg: 'datefrom',
           type: 'string'

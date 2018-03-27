@@ -2,7 +2,7 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-
+var http = require('http');
 var app = module.exports = loopback();
 
 app.start = function() {
@@ -33,10 +33,13 @@ boot(app, __dirname, function(err) {
 var moment = require('moment');
 var CronJob = require('cron').CronJob;
 new CronJob('1 */1 * * * *', function () {
-
-  // app.models.SOAP_CUSTOMER.getListBTNConsumerToday(moment().format('YYYYMMDD'),function(err,succ){
-  //   console.log('cronjob every 10 minutes run');
-  // })
+  console.log('cronjob every 10 minutes run');
+  app.models.SOAP_CUSTOMER.getListBTNConsumerPKfromto(moment().format('YYYYMMDD'),moment().format('YYYYMMDD'),function(err,succ){
+    
+  });
+  app.models.SOAP_CUSTOMER.getListBTNConsumerSP3Kfromto(moment().format('YYYYMMDD'),moment().format('YYYYMMDD'),function(err,succ){
+    
+  });
 
 
 }, null, true);
