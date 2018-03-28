@@ -35,7 +35,7 @@ module.exports = function (Soapcustomer) {
           "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
           "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
           "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-          "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+          "DATE_TIME_CREATE": a
         }, function (err, inst) {
 
         });
@@ -138,7 +138,7 @@ module.exports = function (Soapcustomer) {
               "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
               "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
               "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-              "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+              "DATE_TIME_CREATE": m
             }, (err) => {
               console.log("upsert" + err)
               if (err) {
@@ -257,7 +257,7 @@ module.exports = function (Soapcustomer) {
           "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
           "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
           "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-          "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+          "DATE_TIME_CREATE": a
         }, function (err, inst) {
 
         });
@@ -336,7 +336,7 @@ module.exports = function (Soapcustomer) {
               "ASURANSI_JIWA": parseInt(result.data[data].ASURANSI_JIWA),
               "ASURANSI_FIRE": parseInt(result.data[data].ASURANSI_FIRE),
               "ASURANSI_KREDIT": parseInt(result.data[data].ASURANSI_KREDIT),
-              "DATE_TIME_CREATE": "2018-02-14T11:40:48.637Z"
+              "DATE_TIME_CREATE": m
             }, (err) => {
               console.log("upsert" + err)
               if (err) {
